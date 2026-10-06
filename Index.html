@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Archetype Flashcards and Practice</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Nunito+Sans:wght@400;700&display=swap">
+<style>
+:root{--bg:#F3F1EC;--card:#fff;--ink:#1F2A44;--mut:#5A6270;--teal:#2A9D8F;--ok:#DDF1EE;--bad:#F8E1DE;--line:#D9D4C7;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161d;--card:#1b222d;--ink:#e8ecf2;--mut:#a0a9b7;--teal:#47c2b3;--ok:#1b3a36;--bad:#472421;--line:#2f3a4a}}
+:root[data-theme="dark"]{--bg:#12161d;--card:#1b222d;--ink:#e8ecf2;--mut:#a0a9b7;--teal:#47c2b3;--ok:#1b3a36;--bad:#472421;--line:#2f3a4a}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Nunito Sans",system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:18px 16px 40px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif}h1{font-size:28px;margin:0 0 10px}h3{margin:0 0 6px;font-size:18px}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+button,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 14px;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+nav button[aria-selected=true]{background:var(--teal);color:#fff;border-color:var(--teal);font-weight:700}
+button.go{background:var(--teal);color:#fff;border-color:var(--teal);font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;min-height:250px;cursor:pointer}
+.card.front{display:flex;align-items:center;justify-content:center;text-align:center;border-top:6px solid var(--teal)}
+.card.front h2{font-size:28px;margin:0}.card.back{cursor:pointer}
+.card b{color:var(--teal)}.row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;align-items:center}
+.m{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.m select{width:100%;margin-top:6px}.m.ok{background:var(--ok)}.m.bad{background:var(--bad)}
+.opt{display:block;width:100%;text-align:left;margin-bottom:8px}.opt.ok{background:var(--ok);border-color:var(--teal)}.opt.bad{background:var(--bad)}
+.fb{margin-top:10px;padding:10px 14px;border-radius:8px;background:var(--card);border:1px solid var(--line)}
+.hint{color:var(--mut);font-size:14px}table{border-collapse:collapse;width:100%}td{vertical-align:top;padding:8px;border-top:1px solid var(--line);width:50%}
+</style></head><body><main>
+<h1>Archetype flashcards and practice</h1>
+<nav role="tablist"></nav><div id="v"></div></main>
+<script>
+const A=[
+{n:"Eroding / Drifting Goals",d:"Instead of taking difficult corrective actions, the system continually lowers its targets to eliminate the painful performance gap.",l:"Gap creates pressure to act; acting is costly, so the goal is lowered; the gap shrinks and pressure fades.",e:"Net-zero pledges are quietly pushed from 2030 to 2050 and 'net' is redefined.",w:"Anchor targets to science-based benchmarks, publish the gap openly, and require formal justification to change a target.",s:"Goal and performance decline together while the gap shrinks."},
+{n:"Escalation",d:"Each side's gain is read as a threat, so both keep pushing.",l:"A acts, B responds, A responds again: two reinforcing loops feed each other.",e:"Rival fleets expand fishing capacity to out-catch each other and collapse the stock both depend on.",w:"Agree binding joint quotas, share monitoring data, and reframe the goal as protecting the shared stock.",s:"Two lines accelerate upward together while costs rise for everyone."},
+{n:"Fixes that Fail",d:"A quick, reactive solution temporarily relieves a problem symptom, but triggers delayed unintended consequences that ultimately make the original problem worse.",l:"Quick fix relieves the symptom (balancing); after a delay a side effect restores or worsens it (reinforcing).",e:"Levees reduce flooding now but encourage floodplain building, so the next flood costs more.",w:"Pair hard engineering with zoning, wetland restoration and managed retreat; ask what the fix will cause in 5-10 years.",s:"A quick drop, then a rebound above where the problem would have been."},
+{n:"Shifting the Burden",d:"A symptomatic fix displaces the fundamental solution, and its side effect weakens the capacity to apply that solution, creating an addiction.",l:"Symptomatic fix relieves the problem and reduces pressure for the fundamental solution, whose capacity withers.",e:"Pesticides and synthetic fertiliser degrade soil life and natural pest control, making the farm more dependent on inputs.",w:"Use the fix only as a temporary bridge while investing in regenerative practices and integrated pest management.",s:"The fix wins early, the fundamental solution wins later, and dependence grows."},
+{n:"Limits to Success",d:"Growth runs into a constraint that was always there; there is no such thing as unlimited growth.",l:"Reinforcing growth loop strains a limiting factor, which triggers a balancing loop that slows growth.",e:"Solar and wind growth hits grid congestion and permitting limits.",w:"Anticipate the limit: invest in transmission, storage and permitting before growth stalls.",s:"An S-curve: fast growth, then a plateau or decline."},
+{n:"Growth and Underinvestment",d:"Weak performance is used to justify not investing in capacity, so demand never reaches its potential.",l:"Growth hits a limit that investment could lift; poor performance is used to withhold investment, so demand falls.",e:"Transit demand grows but investment lags; crowding pushes riders back to cars, 'proving' demand was weak.",w:"Invest ahead of demand guided by a long-term vision, and judge investment by the demand it can create.",s:"Demand stalls below its potential while capacity stays flat: a self-fulfilling prophecy."},
+{n:"Success to the Successful",d:"The 'successful' gets the resources and pulls further ahead, leading to greater disparity.",l:"Two options share one pool; resources follow success, which makes the winner more successful and starves the other.",e:"Entrenched fossil-fuel industries receive subsidies and finance that starve emerging clean alternatives.",w:"Rebalance subsidies, set a carbon price, or set transition targets so resources follow potential, not past success.",s:"Two lines diverge: one share rises toward 100%, the other falls toward 0%."},
+{n:"Tragedy of the Commons",d:"Individual incentives overuse a shared resource: each user's gain is private, while the cost of depletion is spread across everyone.",l:"Each user's gain is private; total use depletes the stock; falling stock makes each user use more.",e:"Overfishing, groundwater pumping and atmospheric CO2.",w:"Make the resource visible, set quotas or tradable permits, and build agreements (Ostrom's design principles).",s:"The shared stock collapses, and total catch ends lower than with fewer users."}];
+const P=[["Fixes that Fail vs Shifting the Burden","The fix's side effect brings the same problem back, worse, after a delay.","The fix displaces a better solution and weakens the capacity to use it.","Ask: is a fundamental solution being crowded out?"],
+["Escalation vs Tragedy of the Commons","Two parties react to each other's moves and each sees the other as a threat.","Users do not react to each other; each simply gains from a shared stock that all deplete.","Ask: is the driver a rival's move, or a shared resource?"],
+["Limits to Success vs Growth and Underinvestment","Growth is slowed by a constraint; the remedy is to remove or anticipate it.","The limit could be lifted by investment, but weak results are used to justify withholding it.","Ask: is the weak performance used as an excuse not to invest?"],
+["Escalation vs Success to the Successful","Two parties push against each other; both lose.","Two options split one pool; one wins at the other's expense.","Ask: do both sides grow, or does one grow while the other shrinks?"]];
+const $=s=>document.querySelector(s),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const T=["Flashcards","Match","Quiz","Compare"];let tab=0;
+function nav(){$("nav").innerHTML=T.map((t,k)=>`<button role="tab" aria-selected="${k==tab}" onclick="tab=${k};nav();[fc,mt,qz,cp][${k}]()">${t}</button>`).join("")}
+// Flashcards
+let deck,ci,flip,known=new Set(),rev=false;
+function fc(){if(!deck){deck=sh(A.keys());ci=0;flip=false}draw()}
+function draw(){const a=A[deck[ci]];
+ $("#v").innerHTML=`<p class="hint">Card ${ci+1} of 8 &middot; Known ${known.size} of 8 &middot; Tap the card to flip</p>`+(flip?
+ `<div class="card back" onclick="flip=false;draw()"><h3>${a.n}</h3><p>${a.d}</p><p><b>Loop:</b> ${a.l}</p><p><b>Example:</b> ${a.e}</p><p><b>Way out:</b> ${a.w}</p></div>`:
+ `<div class="card front" onclick="flip=true;draw()"><div><h2>${rev?a.s:a.n}</h2><p class="hint">${rev?"Which archetype shows this behaviour?":"Say what it is, what loop drives it, and the way out."}</p></div></div>`)+
+ `<div class="row"><button onclick="mv(-1)">Previous</button><button onclick="mv(1)">Next</button><button class="go" onclick="known.add(deck[ci]);mv(1)">I know this</button><button onclick="known.delete(deck[ci]);mv(1)">Review again</button><button onclick="rev=!rev;flip=false;draw()">Show: ${rev?"behaviour":"name"} first</button><button onclick="deck=sh(A.keys());ci=0;flip=false;draw()">Shuffle</button></div>`}
+function mv(d){ci=(ci+d+8)%8;flip=false;draw()}
+// Match
+let mo,ms,mc;
+function mt(){mo=sh(A.keys());ms=null;mc=false;mdraw()}
+function mdraw(){$("#v").innerHTML=`<p class="hint">Match each description to its archetype.</p>`+mo.map((k,n)=>`<div class="m ${mc?(sel(n)==k?"ok":"bad"):""}">${A[k].d}<select id="m${n}" onchange="mc=false"><option value="">Choose archetype...</option>${A.map((x,j)=>`<option value="${j}" ${ms&&ms[n]==j&&!mc||ms&&mc&&ms[n]==j?"selected":""}>${x.n}</option>`).join("")}</select></div>`).join("")+`<div class="row"><button class="go" onclick="mchk()">Check answers</button><button onclick="ms=null;mt()">New order</button><span id="sc"></span></div>`}
+function sel(n){return ms[n]}
+function mchk(){ms=mo.map((k,n)=>$("#m"+n).value===""?-1:+$("#m"+n).value);mc=true;mdraw();$("#sc").textContent=`Score: ${mo.filter((k,n)=>ms[n]==k).length} / 8`}
+// Quiz
+let Q,qi,qs,qa,miss;
+function qz(){const kinds=[["d","Which archetype fits this description?"],["e","Which archetype does this example illustrate?"],["w","Which archetype is this the best way out of?"],["s","Which archetype produces this behaviour?"]];
+ Q=sh([...A.keys(),...sh(A.keys()).slice(0,2)]).map(k=>{const [f,p]=kinds[Math.random()*4|0];return{k,f,p,o:sh([k,...sh([...A.keys()].filter(x=>x!=k)).slice(0,3)])}});qi=0;qs=0;qa=null;miss={};qd()}
+function qd(){if(qi>=10){const m=Object.keys(miss).map(k=>A[k].n);$("#v").innerHTML=`<div class="fb"><h3>Score: ${qs} / 10</h3><p>${m.length?"Review these: "+m.join(", ")+".":"No misses. Try the Compare tab next."}</p></div><div class="row"><button class="go" onclick="qz()">New quiz</button></div>`;return}
+ const q=Q[qi],a=A[q.k];$("#v").innerHTML=`<p class="hint">Question ${qi+1} of 10 &middot; Score ${qs}</p><div class="fb"><b>${q.p}</b><p>${a[q.f]}</p></div><div class="row" style="display:block">`+q.o.map(k=>`<button class="opt ${qa===null?"":k==q.k?"ok":k==qa?"bad":""}" ${qa!==null?"disabled":""} onclick="qp(${k})">${A[k].n}</button>`).join("")+`</div>`+(qa!==null?`<div class="fb"><b>${qa==q.k?"Correct.":"The answer is "+a.n+"."}</b> ${a.l}</div><div class="row"><button class="go" onclick="qa=null;qi++;qd()">${qi<9?"Next question":"See results"}</button></div>`:"")}
+function qp(k){qa=k;if(k==Q[qi].k)qs++;else miss[Q[qi].k]=1;qd()}
+// Compare
+function cp(){$("#v").innerHTML=`<p class="hint">The pairs students confuse most.</p>`+P.map(p=>`<div class="fb"><h3>${p[0]}</h3><table><tr><td>${p[1]}</td><td>${p[2]}</td></tr></table><p><b>${p[3]}</b></p></div>`).join("")}
+nav();fc();
+</script></body></html>
