@@ -74,6 +74,6 @@ function qd(){if(qi>=10){const m=Object.keys(miss).map(k=>A[k].n);$("#v").innerH
  const q=Q[qi],a=A[q.k];$("#v").innerHTML=`<p class="hint">Question ${qi+1} of 10 &middot; Score ${qs}</p><div class="fb"><b>${q.p}</b><p>${a[q.f]}</p></div><div class="row" style="display:block">`+q.o.map(k=>`<button class="opt ${qa===null?"":k==q.k?"ok":k==qa?"bad":""}" ${qa!==null?"disabled":""} onclick="qp(${k})">${A[k].n}</button>`).join("")+`</div>`+(qa!==null?`<div class="fb"><b>${qa==q.k?"Correct.":"The answer is "+a.n+"."}</b> ${a.l}</div><div class="row"><button class="go" onclick="qa=null;qi++;qd()">${qi<9?"Next question":"See results"}</button></div>`:"")}
 function qp(k){qa=k;if(k==Q[qi].k)qs++;else miss[Q[qi].k]=1;qd()}
 // Compare
-function cp(){$("#v").innerHTML=`<p class="hint">The pairs students confuse most.</p>`+P.map(p=>`<div class="fb"><h3>${p[0]}</h3><table><tr><td>${p[1]}</td><td>${p[2]}</td></tr></table><p><b>${p[3]}</b></p></div>`).join("")}
+function cp(){$("#v").innerHTML=`<p class="hint">The pairs we confuse most.</p>`+P.map(p=>`<div class="fb"><h3>${p[0]}</h3><table><tr><td>${p[1]}</td><td>${p[2]}</td></tr></table><p><b>${p[3]}</b></p></div>`).join("")}
 nav();fc();
 </script></body></html>
